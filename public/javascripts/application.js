@@ -42,6 +42,28 @@ $(document).ready(function() {
     }
   };
 
+  var onTaskListUpdate = function(event, ui) {
+    if(ui.sender) return;
+
+    var list = ui.item.closest('.list');
+    var list_id = list.attr('id').match(/list_(\d+)/)[1];
+    var tasks = list.find('.tasks');
+
+    var data = '_method=put';
+    $.each(tasks.sortable('toArray'), function() {
+      data += '&lists[' + list_id + '][]=' + this.replace('task_', '');
+    });
+
+    $.ajax({
+      url: '/tasks/reorder',
+      type: 'post',
+      data: data,
+      success: function(data, textStatus) {
+        list.effect('highlight');
+      }
+    });
+  };
+
   var onTaskListReceiveTask = function(event, ui) {
     var list = ui.item.closest('.list');
     var list_id = list.attr('id').match(/list_(\d+)/)[1];
@@ -115,6 +137,7 @@ $(document).ready(function() {
     axis: 'y',
     tolerance: 'pointer',
     connectWith: '.list .tasks',
-    receive: onTaskListReceiveTask
+    receive: onTaskListReceiveTask,
+    update: onTaskListUpdate
   });
 });
