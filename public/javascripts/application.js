@@ -34,7 +34,7 @@ $(document).ready(function() {
         success: function(data, textStatus) {
           var id   = data['list']['id'];
           var name = data['list']['name'];
-          $('<li id="list_' + id + '" class="list"><h2>' + name + '</h2><ul class="tasks"><p><a class="add_task" href="/tasks/new">Add task</a></p></ul></li>').replaceAll($('#new_list_name').closest('li')).effect('highlight');
+          $('<li id="list_' + id + '" class="list"><h2>' + name + '</h2><ul class="tasks"></ul><p><a class="add_task" href="/tasks/new">Add task</a></p></li>').replaceAll($('#new_list_name').closest('li')).effect('highlight');
         }
       });
     } else {

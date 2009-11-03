@@ -1,0 +1,63 @@
+body {
+  background-color: orange;
+}
+
+#page {
+  position: absolute;
+  left: 50%;
+  margin-top: 50px;
+  margin-left: -450px;
+  width: 900px;
+  border: 2px solid #000;
+  background-color: #fff;
+  padding: 2em;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 0.25em;
+}
+
+h1 + p {
+  font-style: italic;
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: 1.0em;
+  font-weight: bold;
+}
+
+a {
+  color: orange;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+span.delete_link {
+  display: none;
+}
+
+.list {
+  margin-bottom: 1em;
+}
+
+.tasks + p {
+  margin: 0.5em 0 0.5em 25px;
+}
+
+#lists + p {
+  margin-top: 0.5em;
+}
+
+#new_task_name {
+  margin: 0.5em 0 0 25px;
+}
+
+#new_list_name {
+  margin-bottom: 0.5em;
+}
