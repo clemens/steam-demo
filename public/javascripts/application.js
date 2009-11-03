@@ -42,15 +42,31 @@ $(document).ready(function() {
     }
   };
 
-  var onTaskListUpdate = function(event, ui) {
+  var onTaskListReceiveTask = function(event, ui) {
     var list = ui.item.closest('.list');
     var list_id = list.attr('id').match(/list_(\d+)/)[1];
     var tasks = list.find('.tasks');
 
+    var data = '_method=put';
+    $.each(tasks.sortable('toArray'), function() {
+      data += '&lists[' + list_id + '][]=' + this.replace('task_', '');
+    });
+
+    if(ui.sender) {
+      var origin_list = ui.sender;
+      var origin_list_id = origin_list.closest('.list').attr('id').match(/list_(\d+)/)[1];
+
+      $.each(origin_list.sortable('toArray'), function() {
+        data += '&lists[' + origin_list_id + '][]=' + this.replace('task_', '');
+      });
+
+      ui.item.removeData('origin_list');
+    }
+
     $.ajax({
       url: '/tasks/reorder',
       type: 'post',
-      data: '_method=put&list_id=' + list_id + '&' + tasks.sortable('serialize'),
+      data: data,
       success: function(data, textStatus) {
         list.effect('highlight');
       }
@@ -60,10 +76,24 @@ $(document).ready(function() {
   var onTaskHover = function() {
     $('.delete_link', $(this)).show();
   };
-
+  
   var onTaskBlur = function() {
     $('.delete_link', $(this)).hide();
   };
+
+  $('.delete_link a').live('click', function(event) {
+    event.preventDefault();
+
+    var task = $(this).closest('.task');
+
+    $.ajax({
+      url: this.href,
+      type: 'delete',
+      success: function(data, textStatus) {
+        task.remove();
+      }
+    });
+  });
 
   $('.add_task').click(function(event) {
     event.preventDefault();
@@ -83,7 +113,8 @@ $(document).ready(function() {
   // sorting
   $('.list .tasks').sortable({
     axis: 'y',
-    tolerance: 'intersect',
-    update: onTaskListUpdate
+    tolerance: 'pointer',
+    connectWith: '.list .tasks',
+    receive: onTaskListReceiveTask
   });
 });

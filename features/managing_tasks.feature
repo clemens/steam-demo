@@ -23,6 +23,7 @@ Feature: Managing tasks
     When I drag the task "Do laundry" above "Buy milk"
     Then the task "Do laundry" should be above "Buy milk"
 
+  @wip
   Scenario: Moving a task to another list
     Given I am on the task list page
     When I drag the task "Sweep porch" to the list "Household"

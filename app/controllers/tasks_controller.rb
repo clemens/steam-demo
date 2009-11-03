@@ -1,6 +1,5 @@
 class TasksController < ApplicationController
   before_filter :set_lists, :only => :index
-  before_filter :set_list, :only => :reorder
 
   def create
     @task = Task.new(params[:task])
@@ -13,22 +12,23 @@ class TasksController < ApplicationController
   end
 
   def reorder
-    @list.tasks.each { |task| task.update_attribute(:position, params[:task].index(task.id.to_s)) } # yuck
+    tasks = Task.find(params[:lists].values.flatten)
+    params[:lists].each do |list_id, task_ids|
+      task_ids.each_with_index do |task_id, index|
+        tasks.detect { |task| task.id == task_id.to_i }.update_attributes(:list_id => list_id, :position => index)
+      end
+    end # yuck
     render :text => 'ok', :status => 200
   end
 
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
-    redirect_to tasks_url
+    render :text => 'ok', :status => 200
   end
 
   protected
     def set_lists
       @lists = List.all
-    end
-
-    def set_list
-      @list = List.find(params[:list_id])
     end
 end

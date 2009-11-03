@@ -65,7 +65,7 @@ end
 
 Then /^there should be a task named "([^\"]*)" in the list "([^\"]*)"$/ do |task, list|
   list = List.find_by_name(list)
-  task = list.tasks.find_by_name(task)
+  task = Task.find_by_name(task)
 
   locate_element(:id => "list_#{list.id}") do
     locate_element("task_#{task.id}").should_not be_nil

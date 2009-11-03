@@ -5,7 +5,7 @@
       <ul class="tasks">
         <% list.tasks.each do |task| %>
           <% content_tag_for(:li, task) do %>
-            <%= h(task.name) %> <span class="delete_link">(<%= link_to 'Delete', task_path(task), :method => :delete, :id => "delete_task_#{task.id}" %>)</span>
+            <%= h(task.name) %> <span class="delete_link">(<%= link_to 'Delete', task_path(task), :id => "delete_task_#{task.id}" %>)</span>
           <% end %>
         <% end -%>
       </ul>  
