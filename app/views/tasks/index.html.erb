@@ -1,0 +1,16 @@
+<ul id="lists">
+  <% @lists.each do |list| -%>
+    <% content_tag_for(:li, list) do %>
+      <h2><%=h list.name %></h2>
+      <ul class="tasks">
+        <% list.tasks.each do |task| %>
+          <% content_tag_for(:li, task) do %>
+            <%= h(task.name) %> <span class="delete_link">(<%= link_to 'Delete', task_path(task), :method => :delete, :id => "delete_task_#{task.id}" %>)</span>
+          <% end %>
+        <% end -%>
+      </ul>  
+      <p><%= link_to "Add task", new_task_path, :class => 'add_task' %></p>
+    <% end %>
+  <% end -%>  
+</ul>  
+<p><%= link_to "Add list", new_list_path, :id => 'add_list' %></p>
