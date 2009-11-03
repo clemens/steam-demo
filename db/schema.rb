@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20091102214156) do
     t.integer  "list_id"
     t.integer  "position"
     t.string   "name"
+    t.boolean  "done"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

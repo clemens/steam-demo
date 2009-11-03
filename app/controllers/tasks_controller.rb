@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_filter :set_lists, :only => :index
+  before_filter :set_task, :only => [:update, :destroy]
 
   def create
     @task = Task.new(params[:task])
@@ -9,6 +10,11 @@ class TasksController < ApplicationController
     else
       render :status => 400
     end
+  end
+
+  def update
+    @task.update_attributes(params[:task])
+    render :json => @task, :status => 200
   end
 
   def reorder
@@ -22,7 +28,6 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task = Task.find(params[:id])
     @task.destroy
     render :text => 'ok', :status => 200
   end
@@ -30,5 +35,9 @@ class TasksController < ApplicationController
   protected
     def set_lists
       @lists = List.all
+    end
+
+    def set_task
+      @task = Task.find(params[:id])
     end
 end

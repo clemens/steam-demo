@@ -4,6 +4,7 @@ class CreateTasks < ActiveRecord::Migration
       t.belongs_to :list
       t.integer :position
       t.string :name
+      t.boolean :done
 
       t.timestamps
     end

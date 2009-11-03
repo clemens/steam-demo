@@ -5,7 +5,11 @@
       <ul id="list_<%= list.id %>_tasks" class="tasks">
         <% list.tasks.each do |task| %>
           <% content_tag_for(:li, task) do %>
-            <%= h(task.name) %> <span class="delete_link">(<%= link_to 'Delete', task_path(task), :id => "delete_task_#{task.id}" %>)</span>
+            <% form_for(task) do |f| %>
+              <%= f.check_box :done, :id => "#{dom_id(task)}_done" %>
+              <%= f.label "#{task.id}_done", h(task.name) %>
+              <span class="delete_link">(<%= link_to 'Delete', task_path(task), :id => "delete_task_#{task.id}" %>)</span>
+            <% end -%>
           <% end %>
         <% end -%>
       </ul>  

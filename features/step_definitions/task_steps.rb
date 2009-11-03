@@ -1,8 +1,17 @@
+When /^I click on "([^\"]*)"$/ do |text|
+  click_on(text)
+end
+
+
 Given /^the following tasks:$/ do |tasks|
   tasks.hashes.each do |attributes|
     list = List.find_or_create_by_name(attributes['list'])
     Task.create!(:name => attributes['name'], :list => list)
   end
+end
+
+Given /^the task "([^\"]*)" is marked as (done|open)$/ do |task, status|
+  Task.find_by_name(task).update_attribute(:done, status == 'open' ? false : true)
 end
 
 When /^I click the link to add a new task to the list "([^\"]*)"$/ do |list|
@@ -89,4 +98,9 @@ Then /^there should be a list named "([^\"]*)"$/ do |list|
 
   list.should_not be_nil
   locate_element(:id => "list_#{list.id}").should_not be_nil
+end
+
+Then /^the task "([^\"]*)" should be marked as (done|open)$/ do |task, state|
+  task = Task.find_by_name(task)
+  task.send(:"#{state}?").should be_true
 end

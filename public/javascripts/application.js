@@ -132,6 +132,24 @@ $(document).ready(function() {
   $('.task').mouseover(onTaskHover);
   $('.task').mouseout(onTaskBlur);
 
+  $('.task input[type=checkbox]').live('click', function() {
+    var checkbox = $(this);
+    var task = checkbox.closest('.task');
+
+    $.ajax({
+      url: checkbox.closest('form').attr('action'),
+      type: 'post',
+      dataType: 'json',
+      data: '_method=put&task[done]=' + (checkbox.is(':checked') ? 1 : 0).toString(),
+      success: function(data, textStatus) {
+        var list = task.closest('.tasks');
+        task.remove();
+        list[data['task']['done'] ? 'append' : 'prepend'](task);
+        task.effect('highlight');
+      }
+    });
+  });
+
   // sorting
   $('.list .tasks').sortable({
     axis: 'y',
