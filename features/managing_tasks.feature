@@ -23,12 +23,6 @@ Feature: Managing tasks
     When I drag the task "Do laundry" above "Buy milk"
     Then the task "Do laundry" should be above "Buy milk"
 
-  @wip
-  Scenario: Moving a task to another list
-    Given I am on the task list page
-    When I drag the task "Sweep porch" to the list "Household"
-    Then there should be a task named "Sweep porch" in the list "Household"
-
   Scenario: Deleting a task
     Given I am on the task list page
     When I hover the task "Sweep porch"
@@ -41,4 +35,8 @@ Feature: Managing tasks
     And I fill in "Work" as the new list's name
     And I click somewhere else on the page
     Then there should be a list named "Work"
-  
+
+  Scenario: Moving a task to another list
+    Given I am on the task list page
+    When I drag the task "Sweep porch" to the list "Household"
+    Then there should be a task named "Sweep porch" in the list "Household"

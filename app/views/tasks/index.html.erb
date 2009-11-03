@@ -2,7 +2,7 @@
   <% @lists.each do |list| -%>
     <% content_tag_for(:li, list) do %>
       <h2><%=h list.name %></h2>
-      <ul class="tasks">
+      <ul id="list_<%= list.id %>_tasks" class="tasks">
         <% list.tasks.each do |task| %>
           <% content_tag_for(:li, task) do %>
             <%= h(task.name) %> <span class="delete_link">(<%= link_to 'Delete', task_path(task), :id => "delete_task_#{task.id}" %>)</span>

@@ -39,13 +39,12 @@ When /^I drag the task "([^\"]*)" above "([^\"]*)"$/ do |task_1_name, task_2_nam
 end
 
 When /^I drag the task "([^\"]*)" to the list "([^\"]*)"$/ do |task, list|
-  drag(task, :to => list)
+  list = List.find_by_name(list)
+  drag(task, :to => "task_#{list.tasks.last.id}")
 end
 
 When /^I hover the task "([^\"]*)"$/ do |task|
   task = Task.find_by_name(task)
-  # p task
-  # puts response.body
   hover(:id => "task_#{task.id}")
 end
 
