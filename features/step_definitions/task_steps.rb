@@ -16,7 +16,7 @@ end
 
 When /^I click the link to add a new task to the list "([^\"]*)"$/ do |list|
   list = List.find_by_name(list)
-  locate_element(:id => "list_#{list.id}") { click_link(:class => 'add_task') }
+  locate_element("list_#{list.id}") { click_link(:class => 'add_task') }
 end
 
 module Steam
@@ -54,16 +54,16 @@ end
 
 When /^I hover the task "([^\"]*)"$/ do |task|
   task = Task.find_by_name(task)
-  hover(:id => "task_#{task.id}")
+  hover("task_#{task.id}")
 end
 
 When /^I click on the button to delete the task "([^\"]*)"$/ do |task|
   task = Task.find_by_name(task)
-  click_link(:id => "delete_task_#{task.id}")
+  click_link("delete_task_#{task.id}")
 end
 
 When /^I click the link to add a new list$/ do
-  click_link(:id => 'add_list')
+  click_link('add_list')
 end
 
 When /^I fill in "([^\"]*)" as the new list's name$/ do |name|
@@ -75,7 +75,7 @@ Then /^there should be a task named "([^\"]*)" in the list "([^\"]*)"$/ do |task
   list = List.find_by_name(list)
   task = Task.find_by_name(task)
 
-  locate_element(:id => "list_#{list.id}") do
+  locate_element("list_#{list.id}") do
     locate_element("task_#{task.id}").should_not be_nil
   end
   list.tasks.should include(task)
@@ -97,7 +97,7 @@ Then /^there should be a list named "([^\"]*)"$/ do |list|
   list = List.find_by_name(list)
 
   list.should_not be_nil
-  locate_element(:id => "list_#{list.id}").should_not be_nil
+  locate_element("list_#{list.id}").should_not be_nil
 end
 
 Then /^the task "([^\"]*)" should be marked as (done|open)$/ do |task, state|
