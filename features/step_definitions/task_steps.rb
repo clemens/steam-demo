@@ -36,7 +36,12 @@ end
 
 When /^I fill in "([^\"]*)" as the new task's name$/ do |name|
   fill_in('new_task_name', :with => name)
-  blur(locate_field('new_task_name'))
+  blur(locate_field('new_task_name')) # should actually go to When /^I click somewhere else on the page$/
+end
+
+When /^I fill in "([^\"]*)" as the new list's name$/ do |name|
+  fill_in('new_list_name', :with => name)
+  blur(locate_field('new_list_name')) # should actually go to When /^I click somewhere else on the page$/
 end
 
 When /^I click somewhere else on the page$/ do
@@ -66,11 +71,6 @@ When /^I click the link to add a new list$/ do
   click_link('add_list')
 end
 
-When /^I fill in "([^\"]*)" as the new list's name$/ do |name|
-  fill_in('new_list_name', :with => name)
-  blur(locate_field('new_list_name'))
-end
-
 Then /^there should be a task named "([^\"]*)" in the list "([^\"]*)"$/ do |task, list|
   list = List.find_by_name(list)
   task = Task.find_by_name(task)
@@ -87,10 +87,8 @@ Then /^the task "([^\"]*)" should be above "([^\"]*)"$/ do |task_1_name, task_2_
 end
 
 Then /^there should not be a task named "([^\"]*)"$/ do |task|
-  task = Task.find_by_name(task)
-
-  task.should be_nil
-  # locate_element(:id => "task_#{task.id}").should be_nil # how do I test this?
+  locate_element(task).should be_nil
+  Task.find_by_name(task).should be_nil
 end
 
 Then /^there should be a list named "([^\"]*)"$/ do |list|
