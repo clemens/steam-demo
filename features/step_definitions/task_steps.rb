@@ -16,26 +16,15 @@ end
 
 When /^I click the link to add a new task to the list "([^\"]*)"$/ do |list|
   list = List.find_by_name(list)
-  locate_element("list_#{list.id}") { click_link(:class => 'add_task') }
-end
-
-module Steam
-  module Browser
-    class HtmlUnit
-      module Actions
-        def blur(element, options = {})
-          element = locate_element(element) unless element.respond_to?(:xpath)
-          page.getFirstByXPath(element.xpath).blur # blur always returns nil
-          respond!
-        end
-      end
-    end
-  end
+  # wtf?! doesn't work
+  # locate_element("list_#{list.id}") { click_link(:class => 'add_task') }
+  locate_element("list_#{list.id}") { @page = page.getFirstByXPath(locate_element(:class => 'add_task').xpath).click && respond! }
 end
 
 When /^I fill in "([^\"]*)" as the new task's name$/ do |name|
-  fill_in('new_task_name', :with => name)
-  blur(locate_field('new_task_name')) # should actually go to When /^I click somewhere else on the page$/
+  field = locate_field('new_task_name')
+  fill_in(field, :with => name)
+  blur(field) # should actually go to When /^I click somewhere else on the page$/
 end
 
 When /^I fill in "([^\"]*)" as the task's name$/ do |name|
@@ -45,8 +34,9 @@ When /^I fill in "([^\"]*)" as the task's name$/ do |name|
 end
 
 When /^I fill in "([^\"]*)" as the new list's name$/ do |name|
-  fill_in('new_list_name', :with => name)
-  blur(locate_field('new_list_name')) # should actually go to When /^I click somewhere else on the page$/
+  field = locate_field('new_list_name')
+  fill_in(field, :with => name)
+  blur(field) # should actually go to When /^I click somewhere else on the page$/
 end
 
 When /^I fill in "([^\"]*)" as the list's name$/ do |name|
