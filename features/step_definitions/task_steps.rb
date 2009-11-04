@@ -103,8 +103,7 @@ end
 
 When /^I (check|uncheck) the task "([^\"]*)"$/ do |action, task|
   task = Task.find_by_name(task)
-  task_checkbox = locate_element("task_#{task.id}") { locate_element("task_#{task.id}_done") }
-  send(action, task_checkbox)
+  send(action, "task_#{task.id}_done")
 end
 
 Then /^there should be a task named "([^\"]*)" in the list "([^\"]*)"$/ do |task, list|
