@@ -26,7 +26,6 @@ module Steam
         def blur(element, options = {})
           element = locate_element(element) unless element.respond_to?(:xpath)
           page.getFirstByXPath(element.xpath).blur # blur always returns nil
-          @page = page.getFirstByXPath(locate_element('body').xpath).click
           respond!
         end
       end
