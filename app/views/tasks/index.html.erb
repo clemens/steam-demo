@@ -3,7 +3,7 @@
     <% content_tag_for(:li, list) do %>
       <h2>
         <span class="action drag">Drag</span>
-        <%=h list.name %>
+        <span class="name"><%=h list.name %></span>
         <span class="delete_link"><%= link_to 'Delete', list_path(list), :id => "delete_list_#{list.id}", :class => 'action delete' %></span>
       </h2>
       <ul id="list_<%= list.id %>_tasks" class="tasks">
@@ -12,7 +12,7 @@
             <% form_for(task) do |f| %>
               <span class="action drag">Drag</span>
               <%= f.check_box :done, :id => "#{dom_id(task)}_done" %>
-              <%= f.label "#{task.id}_done", h(task.name) %>
+              <span class="name"><%= h(task.name) %></span>
               <span class="delete_link"><%= link_to 'Delete', task_path(task), :id => "delete_task_#{task.id}", :class => 'action delete' %></span>
             <% end -%>
           <% end %>

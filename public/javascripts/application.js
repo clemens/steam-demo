@@ -22,6 +22,28 @@ $(document).ready(function() {
     }
   };
 
+  var existingTaskOnBlur = function() {
+    var task_name_field = $(this);
+    var task = task_name_field.closest('.task');
+    var task_id = task.attr('id').match(/task_(\d+)/)[1];
+    var task_name = task_name_field.val();
+
+    if(task_name != '') {
+      $.ajax({
+        url: '/tasks/' + task_id,
+        type: 'post',
+        dataType: 'json',
+        data: '_method=put&task[name]=' + task_name,
+        success: function(data, textStatus) {
+          task_name_field.replaceWith(task_name);
+          task.effect('highlight');
+        }
+      });
+    } else {
+      task_name_field.replaceWith(task_name);
+    }
+  };
+
   var newListOnBlur = function() {
     var list_name = $('#new_list_name').val();
 
@@ -39,6 +61,28 @@ $(document).ready(function() {
       });
     } else {
       $(this).closest('li').remove();
+    }
+  };
+
+  var existingListOnBlur = function() {
+    var list_name_field = $(this);
+    var list = list_name_field.closest('.list');
+    var list_id = list.attr('id').match(/list_(\d+)/)[1];
+    var list_name = list_name_field.val();
+
+    if(list_name != '') {
+      $.ajax({
+        url: '/lists/' + list_id,
+        type: 'post',
+        dataType: 'json',
+        data: '_method=put&list[name]=' + list_name,
+        success: function(data, textStatus) {
+          list_name_field.replaceWith(list_name);
+          list.effect('highlight');
+        }
+      });
+    } else {
+      list_name_field.replaceWith(list_name);
     }
   };
 
@@ -156,7 +200,7 @@ $(document).ready(function() {
   $('.task, .list h2').mouseover(onElementHover);
   $('.task, .list h2').mouseout(onElementBlur);
 
-  $('.task input[type=checkbox]').live('click', function() {
+  $('.task input[type=checkbox]').change(function() {
     var checkbox = $(this);
     var task = checkbox.closest('.task');
 
@@ -172,6 +216,22 @@ $(document).ready(function() {
         task.effect('highlight');
       }
     });
+  });
+
+  $('.task .name').live('click', function(event) {
+    event.preventDefault();
+
+    var input = $('<input type="text" name="task[name]" value="' + $(this).html() + '" />');
+    $(this).html(input);
+    input.blur(existingTaskOnBlur).focus();
+  });
+
+  $('.list h2 .name').live('click', function(event) {
+    event.preventDefault();
+
+    var input = $('<input type="text" name="list[name]" value="' + $(this).html() + '" />');
+    $(this).html(input);
+    input.blur(existingListOnBlur).focus();
   });
 
   // sorting

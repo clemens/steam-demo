@@ -1,4 +1,6 @@
 class ListsController < ApplicationController
+  before_filter :set_list, :only => [:update, :destroy]
+
   def create
     @list = List.new(params[:list])
 
@@ -7,6 +9,11 @@ class ListsController < ApplicationController
     else
       render :status => 400
     end
+  end
+
+  def update
+    @list.update_attributes(params[:list])
+    render :json => @list, :status => 200
   end
 
   def reorder
@@ -18,8 +25,13 @@ class ListsController < ApplicationController
   end
 
   def destroy
-    @list = List.find(params[:id])
     @list.destroy
     render :text => 'ok', :status => 200
   end
+
+  protected
+
+    def set_list
+      @list = List.find(params[:id])
+    end
 end

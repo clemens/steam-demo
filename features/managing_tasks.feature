@@ -18,6 +18,14 @@ Feature: Managing tasks
     And I click somewhere else on the page
     Then there should be a task named "Wash dishes" in the list "Household"
 
+  Scenario: Renaming an task
+    Given I am on the task list page
+    When I click on "Do laundry"
+    And I fill in "Do the laundry" as the task's name
+    And I click somewhere else on the page
+    Then there should be a task named "Do the laundry"
+    Then there should not be a task named "Do laundry"
+
   Scenario: Reordering tasks
     Given I am on the task list page
     When I drag the task "Do laundry" above "Buy milk"
@@ -35,6 +43,14 @@ Feature: Managing tasks
     And I fill in "Work" as the new list's name
     And I click somewhere else on the page
     Then there should be a list named "Work"
+
+  Scenario: Renaming a list
+    Given I am on the task list page
+    When I click on "Household"
+    And I fill in "House" as the list's name
+    And I click somewhere else on the page
+    Then there should be a list named "House"
+    Then there should not be a list named "Household"
 
   Scenario: Reordering lists
     Given I am on the task list page
@@ -56,11 +72,11 @@ Feature: Managing tasks
 
   Scenario: Marking a task as done
     Given I am on the task list page
-    When I click on "Mow the lawn"
+    When I check the task "Mow the lawn"
     Then the task "Mow the lawn" should be marked as done
 
   Scenario: Marking a task as open
     Given the task "Mow the lawn" is marked as done
     And I am on the task list page
-    When I click on "Mow the lawn"
+    When I uncheck the task "Mow the lawn"
     Then the task "Mow the lawn" should be marked as open
