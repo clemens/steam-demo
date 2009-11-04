@@ -62,9 +62,19 @@ When /^I hover the task "([^\"]*)"$/ do |task|
   hover("task_#{task.id}")
 end
 
+When /^I hover the list "([^\"]*)"$/ do |list|
+  list = List.find_by_name(list)
+  hover("list_#{list.id}")
+end
+
 When /^I click on the button to delete the task "([^\"]*)"$/ do |task|
   task = Task.find_by_name(task)
   click_link("delete_task_#{task.id}")
+end
+
+When /^I click on the button to delete the list "([^\"]*)"$/ do |list|
+  list = List.find_by_name(list)
+  click_link("delete_list_#{list.id}")
 end
 
 When /^I click the link to add a new list$/ do
@@ -89,6 +99,11 @@ end
 Then /^there should not be a task named "([^\"]*)"$/ do |task|
   locate_element(task).should be_nil
   Task.find_by_name(task).should be_nil
+end
+
+Then /^there should not be a list named "([^\"]*)"$/ do |list|
+  locate_element(list).should be_nil
+  List.find_by_name(list).should be_nil
 end
 
 Then /^there should be a list named "([^\"]*)"$/ do |list|

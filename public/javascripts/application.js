@@ -95,15 +95,29 @@ $(document).ready(function() {
     });
   };
 
-  var onTaskHover = function() {
+  var onElementHover = function() {
     $('.delete_link', $(this)).show();
   };
   
-  var onTaskBlur = function() {
+  var onElementBlur = function() {
     $('.delete_link', $(this)).hide();
   };
 
-  $('.delete_link a').live('click', function(event) {
+  $('.list h2 .delete_link a').live('click', function(event) {
+    event.preventDefault();
+
+    var list = $(this).closest('.list');
+
+    $.ajax({
+      url: this.href,
+      type: 'delete',
+      success: function(data, textStatus) {
+        list.remove();
+      }
+    });
+  });
+
+  $('.task .delete_link a').live('click', function(event) {
     event.preventDefault();
 
     var task = $(this).closest('.task');
@@ -129,8 +143,8 @@ $(document).ready(function() {
     $('#new_list_name').blur(newListOnBlur).focus();
   });
 
-  $('.task').mouseover(onTaskHover);
-  $('.task').mouseout(onTaskBlur);
+  $('.task, .list h2').mouseover(onElementHover);
+  $('.task, .list h2').mouseout(onElementBlur);
 
   $('.task input[type=checkbox]').live('click', function() {
     var checkbox = $(this);

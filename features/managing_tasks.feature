@@ -36,6 +36,15 @@ Feature: Managing tasks
     And I click somewhere else on the page
     Then there should be a list named "Work"
 
+  @wip
+  Scenario: Deleting a list
+    Given I am on the task list page
+    When I hover the list "Household"
+    And I click on the button to delete the list "Household"
+    Then there should not be a list named "Household"
+    And there should not be a task named "Buy milk"
+    And there should not be a task named "Do laundry"
+
   Scenario: Moving a task to another list
     Given I am on the task list page
     When I drag the task "Sweep porch" to the list "Household"

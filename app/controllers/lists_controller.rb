@@ -8,4 +8,10 @@ class ListsController < ApplicationController
       render :status => 400
     end
   end
+
+  def destroy
+    @list = List.find(params[:id])
+    @list.destroy
+    render :text => 'ok', :status => 200
+  end
 end
