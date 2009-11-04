@@ -2,6 +2,7 @@ class CreateLists < ActiveRecord::Migration
   def self.up
     create_table :lists do |t|
       t.string :name
+      t.integer :position
 
       t.timestamps
     end

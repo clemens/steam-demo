@@ -57,6 +57,10 @@ When /^I drag the task "([^\"]*)" to the list "([^\"]*)"$/ do |task, list|
   drag(task, :to => "task_#{list.tasks.last.id}")
 end
 
+When /^I drag the list "([^\"]*)" above "([^\"]*)"$/ do |list_1_name, list_2_name|
+  drag(list_1_name, :to => list_2_name)
+end
+
 When /^I hover the task "([^\"]*)"$/ do |task|
   task = Task.find_by_name(task)
   hover("task_#{task.id}")
@@ -94,6 +98,11 @@ end
 Then /^the task "([^\"]*)" should be above "([^\"]*)"$/ do |task_1_name, task_2_name|
   # TODO check that task 1 is above task 2 in the DOM
   (Task.find_by_name(task_1_name).position < Task.find_by_name(task_2_name).position).should be_true
+end
+
+Then /^the list "([^\"]*)" should be above "([^\"]*)"$/ do |list_1_name, list_2_name|
+  # TODO check that list 1 is above list 2 in the DOM
+  (List.find_by_name(list_1_name).position < List.find_by_name(list_2_name).position).should be_true
 end
 
 Then /^there should not be a task named "([^\"]*)"$/ do |task|

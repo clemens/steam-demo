@@ -9,6 +9,14 @@ class ListsController < ApplicationController
     end
   end
 
+  def reorder
+    lists = List.find(params[:list])
+    params[:list].each_with_index do |list_id, index|
+      lists.detect { |list| list.id == list_id.to_i }.update_attribute(:position, index)
+    end
+    render :text => 'ok', :status => 200
+  end
+
   def destroy
     @list = List.find(params[:id])
     @list.destroy

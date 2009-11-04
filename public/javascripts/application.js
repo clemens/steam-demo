@@ -42,6 +42,16 @@ $(document).ready(function() {
     }
   };
 
+  var onListUpdate = function(event, ui) {
+    $.ajax({
+      url: '/lists/reorder',
+      type: 'post',
+      data: '_method=put&' + $('#lists').sortable('serialize'),
+      success: function(data, textStatus) {
+      }
+    });
+  };
+
   var onTaskListUpdate = function(event, ui) {
     if(ui.sender) return;
 
@@ -171,5 +181,11 @@ $(document).ready(function() {
     connectWith: '.list .tasks',
     receive: onTaskListReceiveTask,
     update: onTaskListUpdate
+  });
+
+  $('#lists').sortable({
+    axis: 'y',
+    tolerance: 'pointer',
+    update: onListUpdate
   });
 });

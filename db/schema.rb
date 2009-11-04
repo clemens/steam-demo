@@ -13,6 +13,7 @@ ActiveRecord::Schema.define(:version => 20091102214156) do
 
   create_table "lists", :force => true do |t|
     t.string   "name"
+    t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

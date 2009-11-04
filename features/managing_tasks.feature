@@ -36,7 +36,11 @@ Feature: Managing tasks
     And I click somewhere else on the page
     Then there should be a list named "Work"
 
-  @wip
+  Scenario: Reordering lists
+    Given I am on the task list page
+    When I drag the list "Household" above "Garden"
+    Then the list "Household" should be above "Garden"
+
   Scenario: Deleting a list
     Given I am on the task list page
     When I hover the list "Household"
