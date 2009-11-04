@@ -22,31 +22,23 @@ When /^I click the link to add a new task to the list "([^\"]*)"$/ do |list|
 end
 
 When /^I fill in "([^\"]*)" as the new task's name$/ do |name|
-  field = locate_field('new_task_name')
-  fill_in(field, :with => name)
-  blur(field) # should actually go to When /^I click somewhere else on the page$/
+  fill_in('new_task_name', :with => name)
 end
 
 When /^I fill in "([^\"]*)" as the task's name$/ do |name|
-  task_field = locate_field('task[name]')
-  fill_in(task_field, :with => name)
-  blur(task_field)
+  fill_in('task[name]', :with => name)
 end
 
 When /^I fill in "([^\"]*)" as the new list's name$/ do |name|
-  field = locate_field('new_list_name')
-  fill_in(field, :with => name)
-  blur(field) # should actually go to When /^I click somewhere else on the page$/
+  fill_in('new_list_name', :with => name)
 end
 
 When /^I fill in "([^\"]*)" as the list's name$/ do |name|
-  list_field = locate_field('list[name]')
-  fill_in(list_field, :with => name)
-  blur(list_field)
+  fill_in('list[name]', :with => name)
 end
 
 When /^I click somewhere else on the page$/ do
-  # huh?
+  blur(page.getFocusedElement)
 end
 
 When /^I drag the task "([^\"]*)" above "([^\"]*)"$/ do |task_1_name, task_2_name|
