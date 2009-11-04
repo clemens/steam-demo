@@ -61,3 +61,22 @@ span.delete_link {
 #new_list_name {
   margin-bottom: 0.5em;
 }
+
+.action {
+  display: inline-block;
+  width: 16px;
+  height: 16px; 
+  margin-left: 4px;
+  text-indent: 16px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.delete {
+  background: url(/images/icons/delete.png) no-repeat -5px -2px;
+}
+
+.drag {
+  cursor: move;
+  background: url(/images/icons/drag.png) no-repeat 0 -2px;
+}

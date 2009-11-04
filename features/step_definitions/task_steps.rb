@@ -49,16 +49,27 @@ When /^I click somewhere else on the page$/ do
 end
 
 When /^I drag the task "([^\"]*)" above "([^\"]*)"$/ do |task_1_name, task_2_name|
-  drag(task_1_name, :to => task_2_name)
+  task_1 = Task.find_by_name(task_1_name)
+  task_2 = Task.find_by_name(task_2_name)
+  drag_handle = locate_element("task_#{task_1.id}") { locate_element(:class => 'drag') }
+  # a little weird: since we limit to sorting on the y-axis, we have to drag one handle "on" the other
+  target = locate_element("task_#{task_2.id}") { locate_element(:class => 'drag') }
+
+  drag(drag_handle, :to => target)
 end
 
 When /^I drag the task "([^\"]*)" to the list "([^\"]*)"$/ do |task, list|
+  task = Task.find_by_name(task)
   list = List.find_by_name(list)
-  drag(task, :to => "task_#{list.tasks.last.id}")
+  drag_handle = locate_element("task_#{task.id}") { locate_element(:class => 'drag') }
+
+  drag(drag_handle, :to => "task_#{list.tasks.last.id}")
 end
 
 When /^I drag the list "([^\"]*)" above "([^\"]*)"$/ do |list_1_name, list_2_name|
-  drag(list_1_name, :to => list_2_name)
+  drag_handle = locate_element(list_1_name) { locate_element(:class => 'drag') }
+
+  drag(drag_handle, :to => list_2_name)
 end
 
 When /^I hover the task "([^\"]*)"$/ do |task|

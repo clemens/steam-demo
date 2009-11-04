@@ -176,6 +176,7 @@ $(document).ready(function() {
 
   // sorting
   $('.list .tasks').sortable({
+    handle: '.drag',
     axis: 'y',
     tolerance: 'pointer',
     connectWith: '.list .tasks',
@@ -184,6 +185,7 @@ $(document).ready(function() {
   });
 
   $('#lists').sortable({
+    handle: '.drag',
     axis: 'y',
     tolerance: 'pointer',
     update: onListUpdate
