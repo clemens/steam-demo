@@ -157,7 +157,7 @@ $(document).ready(function() {
     $('.delete_link', $(this)).hide();
   };
 
-  $('.list h2 .delete_link a').live('click', function(event) {
+  var onDeleteListClick = function(event) {
     event.preventDefault();
 
     var list = $(this).closest('.list');
@@ -169,9 +169,9 @@ $(document).ready(function() {
         list.remove();
       }
     });
-  });
+  };
 
-  $('.task .delete_link a').live('click', function(event) {
+  var onDeleteTaskClick = function(event) {
     event.preventDefault();
 
     var task = $(this).closest('.task');
@@ -183,24 +183,9 @@ $(document).ready(function() {
         task.remove();
       }
     });
-  });
+  };
 
-  $('.add_task').click(function(event) {
-    event.preventDefault();
-    $(this).closest('.list').find('.tasks').append('<li><input id="new_task_name" type="text" /></li>');
-    $('#new_task_name').blur(newTaskOnBlur).focus();
-  });
-
-  $('#add_list').click(function(event) {
-    event.preventDefault();
-    $('#lists').append('<li id="new_list"><input id="new_list_name" type="text" /></li>');
-    $('#new_list_name').blur(newListOnBlur).focus();
-  });
-
-  $('.task, .list h2').mouseover(onElementHover);
-  $('.task, .list h2').mouseout(onElementBlur);
-
-  $('.task input[type=checkbox]').change(function() {
+  var onTaskToggleDone = function() {
     var checkbox = $(this);
     var task = checkbox.closest('.task');
 
@@ -216,23 +201,154 @@ $(document).ready(function() {
         task.effect('highlight');
       }
     });
-  });
+  };
 
-  $('.task .name').live('click', function(event) {
+  var onTaskNameClick = function(event) {
     event.preventDefault();
 
     var input = $('<input type="text" name="task[name]" value="' + $(this).html() + '" />');
     $(this).html(input);
     input.blur(existingTaskOnBlur).focus();
-  });
+  };
 
-  $('.list h2 .name').live('click', function(event) {
+  var onListNameClick = function(event) {
     event.preventDefault();
 
     var input = $('<input type="text" name="list[name]" value="' + $(this).html() + '" />');
     $(this).html(input);
     input.blur(existingListOnBlur).focus();
-  });
+  };
+
+  var onAddListClick = function(event) {
+      event.preventDefault();
+      $('#lists').append('<li id="new_list"><input id="new_list_name" type="text" /></li>');
+      $('#new_list_name').blur(newListOnBlur).focus();
+    };
+
+  var onTaskToggleDone = function() {
+    var checkbox = $(this);
+    var task = checkbox.closest('.task');
+
+    $.ajax({
+      url: checkbox.closest('form').attr('action'),
+      type: 'post',
+      dataType: 'json',
+      data: '_method=put&task[done]=' + (checkbox.is(':checked') ? 1 : 0).toString(),
+      success: function(data, textStatus) {
+        var list = task.closest('.tasks');
+        task.remove();
+        list[data['task']['done'] ? 'append' : 'prepend'](task);
+        task.effect('highlight');
+      }
+    });
+  };
+
+  var onTaskNameClick = function(event) {
+    event.preventDefault();
+
+    var input = $('<input type="text" name="task[name]" value="' + $(this).html() + '" />');
+    $(this).html(input);
+    input.blur(existingTaskOnBlur).focus();
+  };
+
+  var onListNameClick = function(event) {
+    event.preventDefault();
+
+    var input = $('<input type="text" name="list[name]" value="' + $(this).html() + '" />');
+    $(this).html(input);
+    input.blur(existingListOnBlur).focus();
+  };
+
+  var onAddTaskClick = function(event) {
+    event.preventDefault();
+    $(this).closest('.list').find('.tasks').append('<li><input id="new_task_name" type="text" /></li>');
+    $('#new_task_name').blur(newTaskOnBlur).focus();
+  };
+
+  var onTaskToggleDone = function() {
+    var checkbox = $(this);
+    var task = checkbox.closest('.task');
+
+    $.ajax({
+      url: checkbox.closest('form').attr('action'),
+      type: 'post',
+      dataType: 'json',
+      data: '_method=put&task[done]=' + (checkbox.is(':checked') ? 1 : 0).toString(),
+      success: function(data, textStatus) {
+        var list = task.closest('.tasks');
+        task.remove();
+        list[data['task']['done'] ? 'append' : 'prepend'](task);
+        task.effect('highlight');
+      }
+    });
+  };
+
+  var onTaskNameClick = function(event) {
+    event.preventDefault();
+
+    var input = $('<input type="text" name="task[name]" value="' + $(this).html() + '" />');
+    $(this).html(input);
+    input.blur(existingTaskOnBlur).focus();
+  };
+
+  var onListNameClick = function(event) {
+    event.preventDefault();
+
+    var input = $('<input type="text" name="list[name]" value="' + $(this).html() + '" />');
+    $(this).html(input);
+    input.blur(existingListOnBlur).focus();
+  };
+
+  var onAddListClick = function(event) {
+    event.preventDefault();
+    $('#lists').append('<li id="new_list"><input id="new_list_name" type="text" /></li>');
+    $('#new_list_name').blur(newListOnBlur).focus();
+  };
+
+  var onTaskToggleDone = function() {
+    var checkbox = $(this);
+    var task = checkbox.closest('.task');
+
+    $.ajax({
+      url: checkbox.closest('form').attr('action'),
+      type: 'post',
+      dataType: 'json',
+      data: '_method=put&task[done]=' + (checkbox.is(':checked') ? 1 : 0).toString(),
+      success: function(data, textStatus) {
+        var list = task.closest('.tasks');
+        task.remove();
+        list[data['task']['done'] ? 'append' : 'prepend'](task);
+        task.effect('highlight');
+      }
+    });
+  };
+
+  var onTaskNameClick = function(event) {
+    event.preventDefault();
+
+    var input = $('<input type="text" name="task[name]" value="' + $(this).html() + '" />');
+    $(this).html(input);
+    input.blur(existingTaskOnBlur).focus();
+  };
+
+  var onListNameClick = function(event) {
+    event.preventDefault();
+
+    var input = $('<input type="text" name="list[name]" value="' + $(this).html() + '" />');
+    $(this).html(input);
+    input.blur(existingListOnBlur).focus();
+  };
+
+  // events
+  $('.list h2 .delete_link a').live('click', onDeleteListClick);
+  $('.task .delete_link a').live('click', onDeleteTaskClick);
+  $('.add_task').live('click', onAddTaskClick);
+  $('#add_list').click(onAddListClick);
+  $('.task, .list h2').mouseover(onElementHover);
+  $('.task, .list h2').mouseout(onElementBlur);
+  $('.task input[type=checkbox]').change(onTaskToggleDone);
+  $('.task .name').live('click', onTaskNameClick);
+  $('.list h2 .name').live('click', onListNameClick);
 
   // sorting
   $('.list .tasks').sortable({
