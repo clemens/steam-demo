@@ -344,9 +344,9 @@ $(document).ready(function() {
   $('.task .delete_link a').live('click', onDeleteTaskClick);
   $('.add_task').live('click', onAddTaskClick);
   $('#add_list').click(onAddListClick);
-  $('.task, .list h2').mouseover(onElementHover);
-  $('.task, .list h2').mouseout(onElementBlur);
-  $('.task input[type=checkbox]').change(onTaskToggleDone);
+  $('.task, .list h2').live('mouseover', onElementHover);
+  $('.task, .list h2').live('mouseout', onElementBlur);
+  $('.task input[type=checkbox]').livequery('change', onTaskToggleDone);
   $('.task .name').live('click', onTaskNameClick);
   $('.list h2 .name').live('click', onListNameClick);
 
