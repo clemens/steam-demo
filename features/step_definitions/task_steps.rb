@@ -16,9 +16,7 @@ end
 
 When /^I click the link to add a new task to the list "([^\"]*)"$/ do |list|
   list = List.find_by_name(list)
-  # wtf?! doesn't work
-  # locate_element("list_#{list.id}") { click_link(:class => 'add_task') }
-  locate_element("list_#{list.id}") { @page = page.getFirstByXPath(locate_element(:class => 'add_task').xpath).click && respond! }
+  click_link("list_#{list.id}_add_task")
 end
 
 When /^I fill in "([^\"]*)" as the new task's name$/ do |name|
