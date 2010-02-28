@@ -1,8 +1,3 @@
-When /^I click on "([^\"]*)"$/ do |text|
-  click_on(text)
-end
-
-
 Given /^the following tasks:$/ do |tasks|
   tasks.hashes.each do |attributes|
     list = List.find_or_create_by_name(attributes['list'])
@@ -34,19 +29,21 @@ end
 When /^I drag the task "([^\"]*)" above "([^\"]*)"$/ do |task_1_name, task_2_name|
   task_1 = Task.find_by_name(task_1_name)
   task_2 = Task.find_by_name(task_2_name)
-  drag_handle = locate_element("task_#{task_1.id}") { locate_element(:class => 'drag') }
-  # a little weird: since we limit to sorting on the y-axis, we have to drag one handle "on" the other
-  target = locate_element("task_#{task_2.id}") { locate_element(:class => 'drag') }
 
-  drag_and_drop(drag_handle, :to => target)
+  # we're sorting on the y-axis so we have to drag one element "onto" the other
+  drag = within("#task_#{task_1.id}") { locate(:class => 'drag') }
+  drop = within("#task_#{task_2.id}") { locate(:class => 'drag') }
+
+  drag_and_drop(drag, :to => drop)
 end
 
 When /^I drag the task "([^\"]*)" to the list "([^\"]*)"$/ do |task, list|
   task = Task.find_by_name(task)
   list = List.find_by_name(list)
-  drag_handle = locate_element("task_#{task.id}") { locate_element(:class => 'drag') }
 
-  drag_and_drop(drag_handle, :to => "task_#{list.tasks.last.id}")
+  drag = within("#task_#{task.id}") { locate(:class => 'drag') }
+  drop = locate(:id => "task_#{list.tasks.last.id}")
+  drag_and_drop(drag, :to => drop)
 end
 
 When /^I hover the task "([^\"]*)"$/ do |task|
@@ -68,9 +65,7 @@ Then /^there should be a task named "([^\"]*)" in the list "([^\"]*)"$/ do |task
   list = List.find_by_name(list)
   task = Task.find_by_name(task)
 
-  locate_element("list_#{list.id}") do
-    locate_element("task_#{task.id}").should_not be_nil
-  end
+  locate(:css => "#task_#{task.id}", :within => "#list_#{list.id}").should_not be_nil
   list.tasks.should include(task)
 end
 
@@ -80,20 +75,13 @@ Then /^the task "([^\"]*)" should be above "([^\"]*)"$/ do |task_1_name, task_2_
 end
 
 Then /^there should be a task named "([^\"]*)"$/ do |task|
-  locate_element(task).should_not be_nil
+  locate(task).should_not be_nil
   Task.find_by_name(task).should_not be_nil
 end
 
 Then /^there should not be a task named "([^\"]*)"$/ do |task|
-  locate_element(task).should be_nil
   Task.find_by_name(task).should be_nil
-end
-
-Then /^there should be a list named "([^\"]*)"$/ do |list|
-  list = List.find_by_name(list)
-
-  list.should_not be_nil
-  locate_element("list_#{list.id}").should_not be_nil
+  response.body.should_not have_tag(task, :class => 'task')
 end
 
 Then /^the task "([^\"]*)" should be marked as (done|open)$/ do |task, state|
