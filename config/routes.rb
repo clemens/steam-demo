@@ -3,4 +3,5 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :lists, :collection => { :reorder => :put } do |list|
     list.resources :tasks, :collection => { :reorder => :put }
   end
+  map.root :controller => :tasks
 end
