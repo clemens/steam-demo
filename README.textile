@@ -1,0 +1,30 @@
+h1. Steam Demo Application
+
+This is a demo application for "Steam":http://github.com/svenfuchs/steam. Steam is a headless integration testing tool driving "HtmlUnit":http://htmlunit.sourceforge.net to enable testing JavaScript-driven web sites.
+
+h2. Installation
+
+Just install the Steam gem and clone this repo:
+
+<pre>gem install steam # should install Locator and RJB, too
+git clone git://github.com/clemens/steam-demo.git</pre>
+
+If you are on Mac OS X and/or get an error saying that "JAVA_HOME is not set" then you need to export the JAVA_HOME variable for RJB. (See here for two solutions: "Installing RJB on Mac OS X":http://www.elctech.com/articles/sudo-java_home-and-mac-os-x. The visudo way worked for us. Don’t forget to add yourself to the sudoers file, though.)
+
+h2. Usage
+
+Then create the database and start a server using the test environment:
+
+<pre>cd steam-demo
+rake db:migrate RAILS_ENV=test
+script/server -e test</pre>
+
+Now you can try the application in your browser:
+
+<pre>open http://localhost:3000</pre>
+
+And you can run the cucumber features in another terminal (leaving the server running in the first terminal, obviously you could also detach the server if you want):
+
+<pre>cucumber features/*.feature</pre>
+
+This will give you an output like this: "Steam Demo App Cucumber Output":http://gist.github.com/317630
